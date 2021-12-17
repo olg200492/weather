@@ -30,6 +30,7 @@ def weather():
     
     # converting JSON data to a dictionary
     list_of_data = json.loads(source)
+    
     # data for variable list_of_data
     data = {
         "country_code": str(list_of_data['sys']['country']),

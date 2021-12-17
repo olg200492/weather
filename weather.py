@@ -32,23 +32,27 @@ def weather():
     list_of_data = json.loads(source1)
     lon, lat = str(list_of_data['coord']['lon']), str(list_of_data['coord']['lat'])
     source2 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api).read()
+    print('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api)
     list_of_data2 = json.loads(source2)
-    dic = {}
-    for i in range(len(list_of_data2["daily"])):
-        dic["day" + str(i)] = {
-            "date":str(time.strftime('%A, %d-%m-%Y', time.localtime(list_of_data2["daily"][i]['dt']))),
-            "day_temp":str(list_of_data2["daily"][i]['temp']['day']),
-            "night_temp":str(list_of_data2["daily"][i]['temp']['night']),
-            "humidity":str(list_of_data2["daily"][i]['humidity'])
-            }
-    print(dic)
-    # data for variable list_of_data
     data = {
         "country_code": str(list_of_data['sys']['country']),
-        "cityname":str(list_of_data['name']),
-        "temp_cel": str(list_of_data['main']['temp']) + ' C',
-        "humidity": str(list_of_data['main']['humidity']),
-    }
+        "cityname":str(list_of_data['name'])
+        }
+    for i in range(len(list_of_data2["daily"])):
+        
+            data["date" + str(i)] = str(time.strftime('%A, %d-%m-%Y', time.localtime(list_of_data2["daily"][i]['dt'])))
+            data["day_temp" + str(i)]  = str(list_of_data2["daily"][i]['temp']['day'])
+            data["night_temp" + str(i)] = str(list_of_data2["daily"][i]['temp']['night'])
+            data["humidity" + str(i)] = str(list_of_data2["daily"][i]['humidity'])
+            
+    
+    # data for variable list_of_data
+    #data = {
+    #    "country_code": str(list_of_data['sys']['country']),
+    #    "cityname":str(list_of_data['name']),
+    #    "temp_cel": str(list_of_data['main']['temp']) + ' C',
+    #    "humidity": str(list_of_data['main']['humidity']),
+    #}
     #print(data)
     return render_template('index.html', data = data)
   

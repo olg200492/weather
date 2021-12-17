@@ -32,16 +32,81 @@
         </div>
         <form>
   </center>
-  <div class="row">
-    {% if data.country_code and data.cityname and data.temp_cel and data.humidity %}
-    <div class="col-md-6 col-md-offset-3">
-      <h3>country code : {{data.country_code}}</h1>
-        <h5>City name : {{data.cityname}}</h5>
-        <h5>temp (in celcius) : {{data.temp_cel}}</h5>
-        <h5>humidity : {{data.humidity}}</h5>
+  <div class="container">
+    <div class="row align-self-cente center">
+      <h3>country: {{data.country_code}}</h3>
+      <h5>City name : {{data.cityname}}</h5>
+    </div>
+  <div class="row align-items-start">
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+      
+        <h5>Date : {{data.date0}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp0}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp0}}</h5>
+        <h5>humidity : {{data.humidity0}}</h5>
+    </div>
+    {% endif %}
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+     
+        <h5>Date : {{data.date1}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp1}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp1}}</h5>
+        <h5>humidity : {{data.humidity1}}</h5>
+    </div>
+    {% endif %}
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+     
+        <h5>Date : {{data.date2}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp2}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp2}}</h5>
+        <h5>humidity : {{data.humidity2}}</h5>
     </div>
     {% endif %}
   </div>
+  <div class="row align-items-start">
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+      
+        <h5>Date : {{data.date3}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp3}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp3}}</h5>
+        <h5>humidity : {{data.humidity3}}</h5>
+    </div>
+    {% endif %}
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+     
+        <h5>Date : {{data.date4}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp4}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp4}}</h5>
+        <h5>humidity : {{data.humidity4}}</h5>
+    </div>
+    {% endif %}
+    {% if data.country_code and data.cityname %}
+    <div class="col-md-4">
+     
+        <h5>Date : {{data.date5}}</h5>
+        <h5>temp day (in celcius) : {{data.day_temp5}}</h5>
+        <h5>temp night (in celcius) : {{data.night_temp5}}</h5>
+        <h5>humidity : {{data.humidity5}}</h5>
+    </div>
+    {% endif %}
+    <div class="row align-items-start">
+      {% if data.country_code and data.cityname %}
+      <div class="col-md-4">
+       
+          <h5>Date : {{data.date6}}</h5>
+          <h5>temp day (in celcius) : {{data.day_temp6}}</h5>
+          <h5>temp night (in celcius) : {{data.night_temp6}}</h5>
+          <h5>humidity : {{data.humidity6}}</h5>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 </body>
 
 </html>

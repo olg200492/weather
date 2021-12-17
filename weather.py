@@ -1,5 +1,6 @@
 from typing import List
 from flask import Flask, render_template, request
+import time
   
 # import json to load JSON data to a python dictionary
 import json
@@ -26,11 +27,21 @@ def weather():
     #print(lot)
     #lat , lon = str(lot[0]['lat']), str(lot[0]['lon'])
     # source contain json data from api
-    source = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + api).read()
-    
+    source1 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + api).read()
     # converting JSON data to a dictionary
-    list_of_data = json.loads(source)
-    
+    list_of_data = json.loads(source1)
+    lon, lat = str(list_of_data['coord']['lon']), str(list_of_data['coord']['lat'])
+    source2 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api).read()
+    list_of_data2 = json.loads(source2)
+    dic = {}
+    for i in range(len(list_of_data2["daily"])):
+        dic["day" + str(i)] = {
+            "date":str(time.strftime('%A, %d-%m-%Y', time.localtime(list_of_data2["daily"][i]['dt']))),
+            "day_temp":str(list_of_data2["daily"][i]['temp']['day']),
+            "night_temp":str(list_of_data2["daily"][i]['temp']['night']),
+            "humidity":str(list_of_data2["daily"][i]['humidity'])
+            }
+    print(dic)
     # data for variable list_of_data
     data = {
         "country_code": str(list_of_data['sys']['country']),

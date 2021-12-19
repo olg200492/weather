@@ -29,7 +29,19 @@ def weather():
     #city = city.replace()
     # source contain json data from api
     try:
-        source4 = requests.get(url).json()
+        response = requests.get(url)
+        source4 = response.json()
+        if response:
+            print('Success!')
+        elif 400 <= response.status_code <= 499:
+            print('Client error.')
+            return render_template('index.html', data = {"error":"City/Country not found."})
+        elif 500 <= response.status_code <= 599:
+            print("Server Error")
+            return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
+
+
+
     except URLError as e:
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
@@ -41,7 +53,7 @@ def weather():
             return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
     else:   
         # converting JSON data to a dictionary
-        print(source4)
+        print()
         lon, lat = str(source4['coord']['lon']), str(source4['coord']['lat'])
         url2 = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api
         list_of_data2 = requests.get(url2).json()

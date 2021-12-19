@@ -17,16 +17,14 @@ def weather():
     if request.method == 'POST':
         city = request.form['city']
         if city == "":
-            city = 'mathura'
+            city = 'London'
     else:
         # for default name mathura
-        city = 'mathura'
+        city = 'London'
   
     # your API key will come here
     api = 'da67d9c34ac1b1b6d7bdb171d0a9fa17'
-    #lot = json.loads(urllib.request.urlopen('http://api.openweathermap.org/geo/1.0/direct?q='+city+'&limit=5&appid='+api).read())
-    #print(lot)
-    #lat , lon = str(lot[0]['lat']), str(lot[0]['lon'])
+    
     # source contain json data from api
     try:
         source1 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + api).read()
@@ -34,11 +32,11 @@ def weather():
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
             print('Reason: ', e.reason)
-            return render_template('index2.html', data = {"error":"We failed to reach a server."})
+            return render_template('index.html', data = {"error":"We failed to reach a server."})
         elif hasattr(e, 'code'):
             print('The server couldn\'t fulfill the request.')
             print('Error code: ', e.code)
-            return render_template('index2.html', data = {"error":"The server couldn\'t fulfill the request."})
+            return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
     else:   
         # converting JSON data to a dictionary
         list_of_data = json.loads(source1)
@@ -58,16 +56,7 @@ def weather():
                 data["night_temp" + str(i)] = str(list_of_data2["daily"][i]['temp']['night'])
                 data["humidity" + str(i)] = str(list_of_data2["daily"][i]['humidity'])
 
-
-        # data for variable list_of_data
-        #data = {
-        #    "country_code": str(list_of_data['sys']['country']),
-        #    "cityname":str(list_of_data['name']),
-        #    "temp_cel": str(list_of_data['main']['temp']) + ' C',
-        #    "humidity": str(list_of_data['main']['humidity']),
-        #}
-        #print(data)
-        return render_template('index2.html', data = data)
+        return render_template('index.html', data = data)
   
   
   

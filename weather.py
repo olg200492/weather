@@ -7,6 +7,7 @@ import json
   
 # urllib.request to make a request to api
 import urllib.request
+import requests
 from urllib.error import URLError
   
 app = Flask(__name__)
@@ -24,10 +25,11 @@ def weather():
   
     # your API key will come here
     api = 'da67d9c34ac1b1b6d7bdb171d0a9fa17'
-    
+    url = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + api
+    #city = city.replace()
     # source contain json data from api
     try:
-        source1 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + api).read()
+        source4 = requests.get(url).json()
     except URLError as e:
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
@@ -39,14 +41,13 @@ def weather():
             return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
     else:   
         # converting JSON data to a dictionary
-        list_of_data = json.loads(source1)
-        lon, lat = str(list_of_data['coord']['lon']), str(list_of_data['coord']['lat'])
-        source2 = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api).read()
-        print('https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api)
-        list_of_data2 = json.loads(source2)
+        print(source4)
+        lon, lat = str(source4['coord']['lon']), str(source4['coord']['lat'])
+        url2 = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat +'&lon='+lon+'&units=metric&exclude=current,minutely,hourly,alerts&appid=' + api
+        list_of_data2 = requests.get(url2).json()
         data = {
-            "country_code": str(list_of_data['sys']['country']),
-            "cityname":str(list_of_data['name']),
+            "country_code": str(source4['sys']['country']),
+            "cityname":str(source4['name']),
             "weather":str(list_of_data2["daily"][0]['weather'][0]['description'])
             }
         for i in range(len(list_of_data2["daily"])):

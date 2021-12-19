@@ -34,11 +34,11 @@ def weather():
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
             print('Reason: ', e.reason)
-            return render_template('index.html', data = {"error":"We failed to reach a server."})
+            return render_template('index2.html', data = {"error":"We failed to reach a server."})
         elif hasattr(e, 'code'):
             print('The server couldn\'t fulfill the request.')
             print('Error code: ', e.code)
-            return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
+            return render_template('index2.html', data = {"error":"The server couldn\'t fulfill the request."})
     else:   
         # converting JSON data to a dictionary
         list_of_data = json.loads(source1)
@@ -48,7 +48,8 @@ def weather():
         list_of_data2 = json.loads(source2)
         data = {
             "country_code": str(list_of_data['sys']['country']),
-            "cityname":str(list_of_data['name'])
+            "cityname":str(list_of_data['name']),
+            "weather":str(list_of_data2["daily"][0]['weather'][0]['description'])
             }
         for i in range(len(list_of_data2["daily"])):
 
@@ -66,7 +67,7 @@ def weather():
         #    "humidity": str(list_of_data['main']['humidity']),
         #}
         #print(data)
-        return render_template('index.html', data = data)
+        return render_template('index2.html', data = data)
   
   
   

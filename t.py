@@ -340,7 +340,7 @@ for i in range(len(t["daily"])):
         "night_temp":t["daily"][i]['temp']['night'],
         "humidity":t["daily"][i]['humidity']
             }
-print(dic)
+print(t["daily"][0]['weather'][0]['description'])
 #print(day_temp)
 #print(night_temp)
 #print(timestamp)

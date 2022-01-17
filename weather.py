@@ -1,7 +1,7 @@
 from typing import List
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, send_file, Response
 import time
-  
+from boto3 import client
 # import json to load JSON data to a python dictionary
 import json
   
@@ -11,8 +11,28 @@ import requests
 from urllib.error import URLError
   
 app = Flask(__name__)
-  
-@app.route('/', methods =['POST', 'GET'])
+
+def get_client():
+    return client(
+        's3',
+        'us-east-1',
+        aws_access_key_id='AKIATOWRDITJZXN3QSW7',
+        aws_secret_access_key='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'
+    )
+    
+@app.route('/getImage', methods=['GET','POST'])
+def getImage():
+    s3 = get_client()
+    file = s3.get_object(Bucket='s3-sky-image', Key='sky.jpeg')
+    return Response(
+        file['Body'].read(),
+        mimetype='image/jpeg',
+        headers={"Content-Disposition": "attachment;filename=sky.jpeg"}
+    )
+
+
+
+@app.route('/', methods =[ 'POST','GET'])
 def weather():
     error = None
     if request.method == 'POST':
@@ -31,6 +51,7 @@ def weather():
     try:
         response = requests.get(url)
         source4 = response.json()
+        print("status code:" + str(response.status_code))
         if response:
             print('Success!')
         elif 400 <= response.status_code <= 499:
@@ -39,9 +60,6 @@ def weather():
         elif 500 <= response.status_code <= 599:
             print("Server Error")
             return render_template('index.html', data = {"error":"The server couldn\'t fulfill the request."})
-
-
-
     except URLError as e:
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
@@ -70,6 +88,9 @@ def weather():
                 data["humidity" + str(i)] = str(list_of_data2["daily"][i]['humidity'])
 
         return render_template('index.html', data = data)
+
+
+    
   
   
   

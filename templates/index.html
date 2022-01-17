@@ -60,7 +60,7 @@
                                     <h4 class="display-3">{{data.day_temp0}} <span class="symbol">°</span>C</h4>
                                     <p>Temperature Night:{{data.night_temp0}}<span class="symbol">°</span>C</p>
                                     <p> {{data.weather}} </p>
-                                    <p>Humidity: {{data.humidity0}}</p>
+                                    <p>Humidity: {{data.humidity0}}%</p>
                                 </div>
                             </div>
                             {% endif %}
@@ -125,6 +125,8 @@
                     <!--weather card ends-->
                 </div>
             </div>
+            
+            <a class="btn btn-primary" href="/getImage" role="button" download="sky">Download</a>
         </div>
     </div>
 </body>
